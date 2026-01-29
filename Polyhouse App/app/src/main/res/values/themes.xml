@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.PolyhouseBrowserXML" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+    <style name="Theme.PolyhouseBrowserXML.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/splash_bg</item>
+    </style>
+</resources>
