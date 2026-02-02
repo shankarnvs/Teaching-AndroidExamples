@@ -1,0 +1,5 @@
+# Tell GitHub these are data files, not HTML
+*.xml linguist-detectable=false
+
+# Ensure Kotlin is counted
+*.kt linguist-language=Kotlin
