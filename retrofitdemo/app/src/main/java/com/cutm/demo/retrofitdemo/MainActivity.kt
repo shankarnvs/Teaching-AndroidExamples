@@ -1,19 +1,15 @@
 package com.cutm.demo.retrofitdemo
 
-import android.graphics.Color
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.view.ViewGroup
-import android.widget.HorizontalScrollView
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.cutm.demo.retrofirdemo.PostObject
-import com.cutm.demo.retrofirdemo.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,75 +18,68 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Root LinearLayout
         val linearLayout = LinearLayout(this)
-
         linearLayout.orientation = LinearLayout.VERTICAL
-
-        // ScrollView
-        val scrollView = ScrollView(this)
-
-        val horizontalScrollView =
-            HorizontalScrollView(this)
-
-        // TableLayout
-        val tableLayout = TableLayout(this)
-
-        tableLayout.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-        // Put Horizontal Scroll View inside ScrollView
-        scrollView.addView(horizontalScrollView)
-
-        //Put Table Layout inside Horizontal Scroll View
-        horizontalScrollView.addView(tableLayout)
-
-        // Put ScrollView inside LinearLayout
+        linearLayout.gravity = Gravity.CENTER
+        linearLayout.setPadding(40, 40, 40, 40)
+        // ADD DATA button
+        val addButton = Button(this)
+        addButton.text = "ADD DATA"
+        // LIST DATA button
+        val listButton = Button(this)
+        listButton.text = "LIST DATA"
+        // Add buttons to LinearLayout
         linearLayout.addView(
-            scrollView,
+            addButton,
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
         )
-
-        // Set root layout as Activity content
+        linearLayout.addView(
+            listButton,
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        )
+        // Set Activity content
         setContentView(linearLayout)
+        // ADD DATA
+        addButton.setOnClickListener {
+            val intent = Intent(
+                this,
+                AddPostActivity::class.java
+            )
+            startActivity(intent)
+        }
 
-        // Create table header
-        addHeaderRow(tableLayout)
 
-        // Retrofit GET request
+        // LIST DATA
+        listButton.setOnClickListener {
+            listData()
+        }
+    }
+
+
+    private fun listData() {
         RetrofitClient.api.getPosts()
             .enqueue(object : Callback<List<PostObject>> {
-
                 override fun onResponse(
                     call: Call<List<PostObject>>,
                     response: Response<List<PostObject>>
                 ) {
-
                     if (response.isSuccessful) {
-
                         val posts = response.body()
-
                         Log.d(
                             "RETROFIT",
                             "Posts received: ${posts?.size}"
                         )
-
-                        posts?.forEach { post ->
-
-                            addPostRow(
-                                tableLayout,
-                                post
-                            )
+                        if (posts != null) {
+                            showPostsDialog(posts)
                         }
-
                     } else {
-
                         Log.e(
                             "RETROFIT",
                             "HTTP Error: ${response.code()}"
@@ -102,10 +91,9 @@ class MainActivity : AppCompatActivity() {
                     call: Call<List<PostObject>>,
                     t: Throwable
                 ) {
-
                     Log.e(
                         "RETROFIT",
-                        "Request failed",
+                        "GET request failed",
                         t
                     )
                 }
@@ -113,113 +101,46 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun addHeaderRow(
-        tableLayout: TableLayout
+    private fun showPostsDialog(
+        posts: List<PostObject>
     ) {
-
-        val row = TableRow(this)
-
-        row.gravity = Gravity.CENTER
-
-        addTextView(
-            row,
-            "ID",
-            true
+        // Vertical layout for dialog content
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(
+            30,
+            20,
+            30,
+            20
         )
 
-        addTextView(
-            row,
-            "USER ID",
-            true
-        )
-
-        addTextView(
-            row,
-            "TITLE",
-            true
-        )
-
-        addTextView(
-            row,
-            "BODY",
-            true
-        )
-
-        tableLayout.addView(row)
-    }
-
-
-    private fun addPostRow(
-        tableLayout: TableLayout,
-        post: PostObject
-    ) {
-
-        val row = TableRow(this)
-
-        row.gravity = Gravity.CENTER
-
-        addTextView(
-            row,
-            post.id.toString(),
-            false
-        )
-
-        addTextView(
-            row,
-            post.userId.toString(),
-            false
-        )
-
-        addTextView(
-            row,
-            post.title,
-            false
-        )
-
-        addTextView(
-            row,
-            post.body,
-            false
-        )
-
-        tableLayout.addView(row)
-    }
-
-
-    private fun addTextView(
-        row: TableRow,
-        text: String,
-        isHeader: Boolean
-    ) {
-
-        val textView = TextView(this)
-
-        textView.text = text
-
-        textView.textSize = 18f
-
-        textView.setTextColor(Color.BLACK)
-
-        textView.gravity = Gravity.CENTER
-
-        if (isHeader) {
-            textView.setTypeface(null, android.graphics.Typeface.BOLD)
+        // Add every post
+        posts.forEach { post ->
+            val textView = TextView(this)
+            textView.text = """
+                ID       : ${post.id}
+                USER ID  : ${post.userId}
+                TITLE    : ${post.title}
+                BODY     : ${post.body}
+                
+            """.trimIndent()
+            textView.textSize = 16f
+            layout.addView(
+                textView,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
         }
-
-        val params = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT,
-            TableRow.LayoutParams.WRAP_CONTENT
-        )
-
-        params.setMargins(
-            16,
-            16,
-            16,
-            16
-        )
-
-        textView.layoutParams = params
-
-        row.addView(textView)
+        // ScrollView for many posts
+        val scrollView = ScrollView(this)
+        scrollView.addView(layout)
+        // Create dialog
+        AlertDialog.Builder(this)
+            .setTitle("Posts")
+            .setView(scrollView)
+            .setPositiveButton("CLOSE", null)
+            .show()
     }
 }

@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "retrofirdemo"
+rootProject.name = "retrofitdemo"
 include(":app")
