@@ -4,16 +4,11 @@ import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
@@ -79,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue(this)
         Log.d("VOLLEY_DEMO", "Volley RequestQueue created")
 
-        fetchPosts()
+
 
         root.addView(recyclerView,
             LinearLayout.LayoutParams(
@@ -91,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         postAdapter = PostAdapter(emptyList())
 
         recyclerView.adapter = postAdapter
+
+        fetchPosts()
 
         spinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
