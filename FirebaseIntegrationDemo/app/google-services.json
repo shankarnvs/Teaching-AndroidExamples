@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "589011686702",
+    "project_id": "fir-integrationdemo-e1cfc",
+    "storage_bucket": "fir-integrationdemo-e1cfc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589011686702:android:3c4dd84aaa670efef596bf",
+        "android_client_info": {
+          "package_name": "com.cutm.demo.firebaseintegrationdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589011686702-ikvj14e36q5vlj5tli79ohhn0elb8vsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cutm.demo.firebaseintegrationdemo",
+            "certificate_hash": "7594afc693ad55c8068ec4109fdb0ffda799aa24"
+          }
+        },
+        {
+          "client_id": "589011686702-ff4gck0mbpv6roiicgodj6v9d0g7a1lr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfJn7FZhMMhnuxuZn6BPwxUXPklYovido"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589011686702-ff4gck0mbpv6roiicgodj6v9d0g7a1lr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

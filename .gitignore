@@ -1,0 +1,22 @@
+# ==========================================
+# Android Studio / Gradle generated files
+# ==========================================
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Firebase configuration for this demo
+# ==========================================
+FirebaseIntegrationDemo/app/google-services.json
+
+# ==========================================
+# Signing keys and local secrets
+# ==========================================
+*.jks
+*.keystore
+.env

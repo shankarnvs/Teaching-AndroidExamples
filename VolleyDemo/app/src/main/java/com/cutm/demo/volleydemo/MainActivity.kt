@@ -71,11 +71,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("LOGS","Created the spinner and added it")
         //=======
 
-        requestQueue = Volley.newRequestQueue(this)
-        Log.d("VOLLEY_DEMO", "Volley RequestQueue created")
-
-
-
         root.addView(recyclerView,
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -87,8 +82,12 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = postAdapter
 
+        //REQUESTING DATA FROM JSONPLACEHOLDER
+        requestQueue = Volley.newRequestQueue(this)
+        Log.d("VOLLEY_DEMO", "Volley RequestQueue created")
         fetchPosts()
 
+        //ASSIGNING LISTENER TO SPINNER
         spinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
 
